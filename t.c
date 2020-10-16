@@ -1,21 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
 int main()
 {
-    int i, *ptr, sum = 0;
-    ptr = calloc(10, sizeof(int));
-    if (ptr == NULL)
+    FILE *fp;
+    fp = fopen("read.txt", "r");
+    int counter = 1;
+    // fseek(fp, 0, SEEK_SET); // starting from the first character
+    // fseek(fp, 3, SEEK_SET); // SEEK_SET = starting from first
+    //fseek(fp,-3,SEEK_END);
+    fseek(fp, 5, SEEK_SET);
+    while (counter <= 3)
     {
-        printf("Error! memory not allocated.");
-        exit(0);
+        putchar(fgetc(fp));
+        counter++;
     }
-    printf("Building and calculating the sequence sum of the first 10 terms \n");
-    for (i = 0; i < 10; ++i)
-    {
-        *(ptr + i) = i;
-        sum += *(ptr + i);
-    }
-    printf("Sum = %d", sum);
-    free(ptr);
     return 0;
 }

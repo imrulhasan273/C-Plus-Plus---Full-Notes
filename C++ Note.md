@@ -1641,3 +1641,227 @@ Here are the reasons of using calloc()
 # **File**
 
 ---
+
+## Input from File and Write to another file [C]
+
+```cpp
+#include <stdio.h>
+int main()
+{
+    FILE *fr, *fw;
+    fr = fopen("read.txt", "r"); // filename, mode
+    fw = fopen("write.txt", "w");
+    char ch;
+
+    while ((ch = fgetc(fr)) != EOF)
+    {
+        putchar(ch);
+        fputc(ch, fw);
+    }
+    fclose(fr);
+    fclose(fw);
+
+    return 0;
+}
+```
+
+## Read a file and Write on that File [C++]
+
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+int main()
+{
+    ofstream myfile;
+    myfile.open("read.txt");
+    myfile << "Writing this to a file." << endl;
+    myfile.close();
+    return 0;
+}
+```
+
+## File Read and Write to another File [C]
+
+```cpp
+#include <stdio.h>
+
+int main()
+{
+    FILE *fr, *fw;
+    fr = fopen("read.txt", "r");
+    fw = fopen("write.txt", "w");
+    char s[100];
+    while (!feof(fr))
+    {
+        fgets(s, 100, fr); // (destination, max limit, source)
+        fputs(s, fw);      // (source,destination)
+        puts(s);
+    }
+    fclose(fr);
+    fclose(fw);
+
+    return 0;
+}
+```
+
+## File [C]
+
+```cpp
+#include <stdio.h>
+
+int main()
+{
+    FILE *fr, *fw;
+    fr = fopen("read.txt", "r");
+    fw = fopen("write.txt", "w");
+    char a[100], s[100];
+    while (!feof(fr))
+    {
+        fscanf(fr, "%s %s", a, s);
+        puts(a);
+        puts(s);
+        fprintf(fw, "%s %s\n", s, a);
+    }
+    fclose(fr);
+    fclose(fw);
+
+    return 0;
+}
+```
+
+## File [C]
+
+```cpp
+#include <stdio.h>
+int main()
+{
+    /************** Part one ***************/
+    FILE *r, *w;
+    r = fopen("file1.txt", "r");
+    w = fopen("file2.txt", "w");
+    char ch;
+    while ((ch = fgetc(r)) != EOF)
+    {
+        fputc(ch, w);
+    }
+    //fputc(' ',w);
+    fclose(r);
+    fclose(w);
+    /************* Part two ****************/
+    r = fopen("file3.txt", "r");
+    w = fopen("file2.txt", "a");
+
+    while ((ch = fgetc(r)) != EOF)
+    {
+        fputc(ch, w);
+    }
+    fclose(r);
+    fclose(w);
+
+    return 0;
+}
+```
+
+---
+
+## Read File and Fetch data using Indexing.
+
+```cpp
+#include <stdio.h>
+int main()
+{
+    FILE *fp;
+    fp = fopen("read.txt", "r");
+    int counter = 1;
+    // fseek(fp, 0, SEEK_SET); // starting from the first character
+    // fseek(fp, 3, SEEK_SET); // SEEK_SET = starting from first
+    // fseek(fp, 5, SEEK_SET);
+    fseek(fp, -3, SEEK_END);   //last 3 char
+
+    while (counter <= 3)
+    {
+        putchar(fgetc(fp));
+        counter++;
+    }
+
+    return 0;
+}
+```
+
+`read.txt`
+
+```txt
+ImrulHasan
+```
+
+### Output
+
+```cpp
+san
+```
+
+---
+
+---
+
+# **Recursion**
+
+---
+
+# Example 1
+
+```cpp
+#include <iostream>
+using namespace std;
+int fact(int n)
+{
+    if (n == 0)
+        return 1;
+    else
+        return n * fact(n - 1);
+}
+int main()
+{
+    int i;
+    i = fact(5);
+    cout << i << endl;
+}
+```
+
+## Example 2
+
+```cpp
+#include<iostream>
+using namespace std;
+int series(int n)
+{
+    if(n==1) return 1;
+    else return n+series(n-1);
+}
+
+int main()
+{
+    cout<<series(5);
+    return 0;
+}
+```
+
+## Example 3
+
+```cpp
+#include<stdio.h>
+// 2+4+6+8+.....+n
+int series(int n)
+{
+    if(n==0) return 0;
+    else return 2*n+series(n-1);
+}
+int main()
+{
+    printf("%d",series(4));
+    return 0;
+}
+```
+
+---

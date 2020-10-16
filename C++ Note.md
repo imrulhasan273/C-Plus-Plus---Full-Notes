@@ -932,3 +932,621 @@ int main()
 ```
 
 ---
+
+## Swapping
+
+```cpp
+#include <iostream>
+using namespace std;
+void swap(int *x, int *y)
+{
+    int temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+int main()
+{
+    int i = 10, j = 20;
+    swap(&i, &j);
+    cout << "i = " << i << endl;
+    cout << "j = " << j;
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+i = 20
+j = 10
+```
+
+---
+
+## array of pointer, pointer to an array
+
+```cpp
+// array of pointer, pointer to an array
+#include <iostream>
+using namespace std;
+int main()
+{
+    int *a[100]; // array of pointers
+    cout << sizeof(a) << endl;
+
+    int(*b)[100]; // pointer points to an array
+    cout << sizeof(b);
+}
+```
+
+### Output
+
+```cpp
+400
+4
+```
+
+---
+
+## Call By Value
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void set(int x)
+{
+    x = 20;
+}
+
+int main()
+{
+    int i = 10;
+    set(i); // set(10)
+    cout << "the value of i is = " << i;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+the value of i is = 10
+```
+
+---
+
+## Call By Reference
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void set_callbyref(int *x) // x=&i, x points to the address of i
+{
+    *x = 20;
+}
+
+int main()
+{
+    int i = 10;
+    set_callbyref(&i); // address of i
+    cout << "the value of i is = " << i;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+the value of i is = 20
+```
+
+---
+
+## Chaining
+
+```cpp
+// pointer chaining
+#include <iostream>
+using namespace std;
+int main()
+{
+    int *p, **q, ***r;
+    int i = 20;
+    p = &i; // p=address of i
+    q = &p;
+    r = &q;
+    *p = 3;          // i=3
+    ***r = 4;        // i=4;
+    **q = 9;         // i=9
+    ***r = *p + **q; // i=i+i, i=9+9, i=18
+    (*p)++;          // *p=*p+1; i=18+1=19
+    cout << "value of i is = " << *p << endl;
+    cout << "value of i is = " << **q << endl;
+    cout << "value of i is = " << ***r << endl;
+    cout << "value of i = " << i << endl;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+value of i is = 19
+value of i is = 19
+value of i is = 19
+value of i = 19
+```
+
+---
+
+## function returning pointer
+
+```cpp
+// function returning pointer
+#include <iostream>
+using namespace std;
+int *set(int *x)
+{
+    *x = 100;
+    return x;
+}
+int main()
+{
+    int i = 20;
+    int *p;
+    p = set(&i); // p=x // *p,*x, p=x
+    cout << *p;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+100
+```
+
+---
+
+## increment and decrement of address and value
+
+```cpp
+// increment and decrement of address and value
+#include <iostream>
+using namespace std;
+int main()
+{
+    int i = 10;
+    int *p;
+    p = &i;
+    cout << "prev address = " << p << endl;  // address of i
+    cout << "prev value   = " << *p << endl; // value of i
+    (*p)++;                                  // *p=*p+1; i=i+1;
+    *p++;
+    // p=p+1; // p=next adress after i
+    cout << "pres address = " << p << endl;
+    cout << "pres value   = " << *p << endl; //Garbage Value as no value was input to the next address.
+    cout << "pres value   = " << i << endl;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+prev address = 0x61ff08
+prev value   = 10
+pres address = 0x61ff0c
+pres value   = 6422284
+pres value   = 11
+```
+
+---
+
+## Pointer to an Array
+
+```cpp
+// pointer traversing an array
+#include <iostream>
+using namespace std;
+int main()
+{
+    int *p, a[3];
+    a[0] = 10, a[1] = 20, a[2] = 30;
+    p = a; // pointer is pointing to the head of the array
+    // p is pointing to the address of a[0]
+
+    for (int i = 0; i < 3; i++)
+    {
+        *p = *p * 2;        // value of head=value of head*2,a[0]=a[0]*2
+        cout << *p << endl; // 20    //40    //60
+        p++;                // p is pointing to the address of a[1]     //a[2]        //a[3] but condition doesnt satisfied.
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        cout << "array = " << a[i] << endl;
+    }
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+20
+40
+60
+array = 20
+array = 40
+array = 60
+```
+
+---
+
+## Problem Solving
+
+```cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+    int iden[3][3] = {1, 0, 0,
+                      0, 1, 0,
+                      0, 0, 1};
+
+    int i, j, flag = 0, counter = 0;
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            if (i != j && iden[i][j] != 0)
+            {
+                flag = 1;
+                break;
+            }
+            if (i == j && iden[i][j] == 1)
+            {
+                counter++;
+            }
+        }
+    }
+    if (counter == 3 && flag == 0)
+        cout << "Identity";
+    else
+        cout << "Not";
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+Identity
+```
+
+---
+
+## Function Returing Pointer
+
+```cpp
+#include <iostream>
+using namespace std;
+int *set(int *x)
+{
+    *x = 30;
+    return x;
+}
+
+int main()
+{
+    int i = 20;
+    int *p;
+    p = set(&i);
+    cout << *p;
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+30
+```
+
+---
+
+## Pointer to Array
+
+```cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a[3], *p, i;
+    a[0] = 10;
+    a[1] = 20;
+    a[2] = 30;
+    p = a; // P is pointing to the head(a[0]) of the array
+
+    for (i = 0; i < 3; i++)
+    {
+        cout << *p << endl;
+        p++;
+    }
+
+    return 0;
+}
+```
+
+### Output
+
+```cpp
+10
+20
+30
+```
+
+---
+
+---
+
+# **Structure** [C Language]
+
+---
+
+## Student
+
+```cpp
+#include<stdio.h>
+#include<string.h>
+/// -- -- - -- -- - -- - - Start Solution (a) --- -- --- - -- --
+struct student
+{
+    char id[10];
+    char gender[10]; // 'M' / 'F'
+    float ctScore;
+    float midScore;
+    float finalScore;
+    float totalScore;
+};
+/// -- -- - -- -- - -- - - End Solution (a) --- -- --- - -- --
+
+
+/// -- -- - -- -- - -- - - Start Solution (c) --- -- --- - -- --
+int isFailed(struct student s[], size_t len)
+{
+    int count = 0;
+    for(int i=0;i<len;i++)
+    {
+        if(s[i].totalScore<60)
+        {
+            count++;
+        }
+    }
+    return count;
+}
+/// -- -- - -- -- - -- - - End Solution (c) --- -- --- - -- --
+
+
+
+
+/// -- -- - -- -- - -- - - Start Solution (d) --- -- --- - -- --
+char* isHighest(struct student s[], size_t len)
+{
+    float highestScore=s[0].totalScore;
+    int max_index=0;
+    for(int i=0;i<len;i++)
+    {
+        if(s[i].totalScore>highestScore)
+        {
+            highestScore=s[i].totalScore;
+            max_index=i;
+        }
+    }
+    //puts(s[max_index].id);
+    return s[max_index].id;
+}
+/// -- -- - -- -- - -- - - End Solution (d) --- -- --- - -- --
+
+
+int main()
+{
+
+    /// -- -- - -- -- - -- - - Start Solution (b) --- -- --- - -- --
+    int n;
+    printf("Number Student Info to Insert: ");
+    scanf("%d",&n);
+    //getchar();
+    student s[n];
+
+    int count=1;
+    for(int i=0;i<n;i++)
+    {
+        printf("\nStart Number - %d \n",count);
+        printf("----------------\n");
+
+        getchar();
+        printf("ID: ");
+        gets(s[i].id);
+
+        printf("Gender: ");
+        getchar();
+        gets(s[i].gender);
+
+        printf("CT Score: ");
+        scanf("%f",&s[i].ctScore);
+
+        printf("Mid Score: ");
+        scanf("%f",&s[i].midScore);
+
+        printf("Final Score: ");
+        scanf("%f",&s[i].finalScore);
+
+        printf("Total Score: ");
+        scanf("%f",&s[i].totalScore);
+
+        count++;
+    }
+    /// -- -- - -- -- - -- - - End Solution (b) --- -- --- - -- --
+
+
+    printf("-------------------------------------------------------------\n\n\n\n");
+    ///Highest Income Function Call for (c) .. .. . .. . .
+    int totalFailed =  isFailed(s, sizeof(s) / sizeof(*s));
+    printf("Total Failed : ");
+    printf("%d\n\n",totalFailed);
+
+
+    ///Youngest Movie Star age Function Call for (d).. .. . .. .. . .
+    char* idTOP =  isHighest(s, sizeof(s) / sizeof(*s));
+    printf("ID of student obtaining Highest Mark : ");
+    puts(idTOP);
+
+    return 0;
+}
+```
+
+---
+
+## Movie
+
+```cpp
+#include<stdio.h>
+#include<string.h>
+/// -- -- - -- -- - -- - - Start Solution (a) --- -- --- - -- --
+struct movieStar
+{
+    char name[32];
+    int age;
+    float income;
+    char gender[10]; // 'M' / 'F'
+};
+/// -- -- - -- -- - -- - - End Solution (a) --- -- --- - -- --
+
+
+/// -- -- - -- -- - -- - - Start Solution (c) --- -- --- - -- --
+float highest_earning(struct movieStar s[], size_t len)
+{
+    float max_income=s[0].income;
+    int max_index=0;
+    for(int i=0;i<len;i++)
+    {
+        if(s[i].income>max_income)
+        {
+            max_income=s[i].income;
+            max_index=i;
+        }
+    }
+    return s[max_index].income;
+}
+/// -- -- - -- -- - -- - - End Solution (c) --- -- --- - -- --
+
+
+
+
+/// -- -- - -- -- - -- - - Start Solution (d) --- -- --- - -- --
+int youngest_movieStar(struct movieStar s[], size_t len)
+{
+    int youngest=s[0].age;
+    int min_index=0;
+    for(int i=0;i<len;i++)
+    {
+        if(s[i].age<youngest)
+        {
+            youngest=s[i].age;
+            min_index=i;
+        }
+    }
+    return s[min_index].age;
+}
+/// -- -- - -- -- - -- - - End Solution (d) --- -- --- - -- --
+
+
+int main()
+{
+
+    /// -- -- - -- -- - -- - - Start Solution (b) --- -- --- - -- --
+    int n;
+    printf("Number of Movie Star to Insert: ");
+    scanf("%d",&n);
+    getchar();
+    movieStar s[n];
+
+    int count=1;
+    for(int i=0;i<n;i++)
+    {
+        printf("\nStart Number - %d \n",count);
+        printf("----------------\n");
+        printf("Name: ");
+        gets(s[i].name);
+
+        printf("Annual Income: ");
+        //gets(s[i].income);
+        scanf("%f",&s[i].income);
+
+        printf("Age: ");
+        scanf("%d",&s[i].age);
+
+        printf("Gender: ");
+        getchar();
+        gets(s[i].gender);
+
+        count++;
+    }
+    /// -- -- - -- -- - -- - - End Solution (b) --- -- --- - -- --
+
+
+    printf("-------------------------------------------------------------\n\n\n\n");
+    ///Highest Income Function Call for (c) .. .. . .. . .
+    float annual_income =  highest_earning(s, sizeof(s) / sizeof(*s));
+    printf("Highest Annual Income : ");
+    printf("%.2f\n\n",annual_income);
+
+
+    ///Youngest Movie Star age Function Call for (d).. .. . .. .. . .
+    int youngest_age =  youngest_movieStar(s, sizeof(s) / sizeof(*s));
+    printf("Youngest Movie Star : ");
+    printf("%d\n\n",youngest_age);
+
+    return 0;
+}
+```
+
+---
+
+## Malloc
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int *p;
+    for (;;)
+    {
+        p = (int *)malloc(sizeof(int *) * 100);
+    }
+    free(p);
+
+    return 0;
+}
+```
+
+---
+
+---
+
+# **File**
+
+---

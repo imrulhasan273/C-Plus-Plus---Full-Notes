@@ -1,14 +1,27 @@
 #include <iostream>
-#include <functional>
 using namespace std;
-void call(int arg, function<void(int)> func)
+class test
 {
-    func(arg);
+    int roll;
+    float per;
+
+public:
+    void getdata(int, float); //inside
+    void putdata(void)        //outside
+    {
+        cout << "roll =" << roll;
+        cout << "per =" << per;
+    }
+};
+void test::getdata(int x, float y)
+{
+    roll = x;
+    per = y;
 }
 int main()
 {
-    auto printSquare = [](int x) {
-        cout << x * x;
-    };
-    call(2, printSquare); // "4"
+    test t;
+    t.getdata(101, 80.3);
+
+    return 0;
 }

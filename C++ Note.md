@@ -271,7 +271,7 @@ int main()
 
         }
     }
-    if(counter==3 && flag==0
+    if(counter==3 && flag==0)
         printf("Identity");
     else
         printf("Not");

@@ -2331,3 +2331,220 @@ A is destroying
 ---
 
 ---
+
+# **Default Argument**
+
+---
+
+```cpp
+#include <iostream>
+using namespace std;
+void add()
+{
+    cout << "default" << endl;
+}
+void add(float j)
+{
+    cout << "i have 1 float parameter" << endl;
+}
+void add(int i)
+{
+    cout << "I have 1 integer parameter" << endl;
+}
+void add(int i, int j, int k = 0)
+{
+    cout << i << " : ping : " << j << " : ping : " << k << endl;
+}
+int main()
+{
+    int a;
+    float x = 2.4;
+    add(2.4, 4);
+    add(x);
+
+    return 0;
+}
+```
+
+### Output
+
+```
+2 : ping : 4 : ping : 0
+i have 1 float parameter
+```
+
+---
+
+# **Constant Argument**
+
+---
+
+## Introduction
+
+```cpp
+// constant argument
+// keyword: const
+
+add(int x, int y)
+{
+    x=x+10;
+}
+
+add(10)  //supports for upper function.
+
+add(const int x)  // call by value
+{
+    x=x+10; //wrong. Constant x can never be changed here.
+    y=y+x;  //right.
+}
+
+add(const int &x)   //call by reference
+add(const int *p)   //using pointer or call by address.
+
+// const value never been modified.
+// if try to modify constant value there been error.
+```
+
+---
+
+# **Reference to Object**
+
+---
+
+```cpp
+#include <iostream>
+using namespace std;
+class A
+{
+public:
+    int i;
+    A()
+    {
+        cout << "class A is constructing" << endl;
+    }
+    ~A()
+    {
+        cout << "class A is destructing" << endl;
+    }
+};
+
+void test(A &a)
+{
+    a.i = 20;
+    cout << a.i << endl; //correct. if i be a private var then this func with friend
+                         //before that and use it inside the class.
+}
+
+int main()
+{
+    A a;
+    test(a);
+    cout << a.i << endl; //correct. if i be a private variable then
+                         // we can not use a.i as i would be a private var.
+    return 0;
+}
+```
+
+### Output
+
+```
+class A is constructing
+20
+20
+class A is destructing
+```
+
+---
+
+---
+
+# **Friend Function**
+
+---
+
+```cpp
+#include <iostream>
+using namespace std;
+class A
+{
+private:
+    int i;
+
+public:
+    A()
+    {
+        cout << "class A is constructing" << endl;
+        // set(30);
+    }
+    ~A()
+    {
+        cout << "class A is destructing" << endl;
+    }
+    friend void test(A &a);
+    friend void set(int i);
+};
+void set(int i)
+{
+    cout << "Friend function is calling" << endl;
+}
+
+void test(A &a)
+{
+    a.i = 20;
+    cout << a.i << endl;
+    /***
+        test function can use the private variable of class
+        A cause this is a friend func of class A.
+    ***/
+}
+int main()
+{
+    A a;
+    set(2);
+    test(a);
+
+    return 0;
+}
+```
+
+### Output
+
+```
+class A is constructing
+Friend function is calling
+20
+class A is destructing
+```
+
+---
+
+```cpp
+int main()
+{
+    A a;
+    set(2);
+    test(a);
+    cout << a.i << endl; //Error
+    /***
+        ERROR!!!. cause main function is not a friend function of the class A
+        So main func can not use private variable of class A
+    ***/
+
+    return 0;
+}
+```
+
+### Output
+
+```
+ERROR!!!. cause main function is not a friend function of the class A
+So main func can not use private variable of class A
+```
+
+---
+
+---
+
+# **Copy Constructor**
+
+---

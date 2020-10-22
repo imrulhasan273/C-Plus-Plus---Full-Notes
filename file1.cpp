@@ -1,58 +1,47 @@
 #include <iostream>
 using namespace std;
-
 class A
 {
+private:
+    int i;
+
 public:
     A()
     {
-        cout << "A is creating" << endl;
+        cout << "class A is constructing" << endl;
+        // set(30);
     }
     ~A()
     {
-        cout << "A is destroying" << endl;
+        cout << "class A is destructing" << endl;
     }
+    friend void test(A &a);
+    friend void set(int i);
 };
-class B : public A
+void set(int i)
 {
-public:
-    B()
-    {
-        cout << "B is creating" << endl;
-    }
-    ~B()
-    {
-        cout << "B is destroying" << endl;
-    }
-};
+    cout << "Friend function is calling" << endl;
+}
 
-class C : public A
+void test(A &a)
 {
-public:
-    C()
-    {
-        cout << "C is creating" << endl;
-    }
-    ~C()
-    {
-        cout << "C is destroying" << endl;
-    }
-};
-
-class D : public B, C
-{
-public:
-    D()
-    {
-        cout << "D is creating" << endl;
-    }
-    ~D()
-    {
-        cout << "D is destroying" << endl;
-    }
-};
+    a.i = 20;
+    cout << a.i << endl;
+    /***
+        test function can use the private variable of class
+        A cause this is a friend func of class A.
+    ***/
+}
 int main()
 {
-    D d;
+    A a;
+    set(2);
+    test(a);
+    cout << a.i << endl;
+    /***
+    ERROR!!!. cause main function is not a friend function of the class A
+    So main func can not use private variable of class A
+    ***/
+
     return 0;
 }

@@ -1871,3 +1871,463 @@ int main()
 # **Object Oriented Programming**
 
 ---
+
+## Class Example 1
+
+```cpp
+#include <iostream>
+using namespace std;
+class A
+{
+public:
+    int i;
+    int add(int x, int y)
+    {
+        return x + y;
+    }
+    int sub(int x, int y)
+    {
+        return x - y;
+    }
+    int prod(int x, int y)
+    {
+        return x * y;
+    }
+    int div(int x, int y)
+    {
+        if (x > y)
+            return x / y;
+        else
+            return y / x;
+    }
+};
+int main()
+{
+    A a;
+    int c, d;
+    cin >> c >> d;
+    int m;
+    int prod;
+
+    a.i = a.add(c, d); //set the value of `i` of class A using `object a`
+    cout << a.i << endl;
+
+    prod = a.prod(c, d); //set the value of `prod` in this main class.
+    cout << prod << endl;
+
+    return 0;
+}
+```
+
+## Class -- Constructor
+
+```cpp
+#include <iostream>
+using namespace std;
+class A
+{
+public:
+    int i;
+    A()
+    {
+        cout << "default constructor" << endl;
+    }
+
+    A(int i)
+    {
+        cout << "parameterized constructor 1" << endl;
+    }
+    A(int i, int j)
+    {
+        cout << "parameterized constructor 2" << endl;
+    }
+    ~A()
+    {
+        cout << "destructor calling" << endl;
+    }
+};
+int main()
+{
+    A a;
+    A b(10);
+    A c(4, 5);
+
+    return 0;
+}
+```
+
+### Output
+
+```
+default constructor
+parameterized constructor 1
+parameterized constructor 2
+destructor calling
+destructor calling
+destructor calling
+```
+
+- So contructors will call first then all the destructor will be called.
+
+---
+
+## Class -- Constructor
+
+```cpp
+#include <iostream>
+using namespace std;
+class A
+{
+private:
+    int i;
+
+public:
+    int res;
+    A()
+    {
+        //
+    }
+    void seti(int p)
+    {
+        i = p;
+    }
+    int geti()
+    {
+        return i;
+    }
+};
+int main()
+{
+    A a;
+    int p;
+    cin >> p;
+    a.seti(p);
+    a.res = a.geti();
+    cout << "Result: " << a.res << endl;
+
+    return 0;
+}
+```
+
+### Output
+
+```
+10
+Result: 10
+```
+
+---
+
+---
+
+# **Inheritance**
+
+---
+
+## Example 1
+
+---
+
+```cpp
+// Child has full access of everything from its parent class
+// Parent cant access anything from its derive classes
+
+#include <iostream>
+using namespace std;
+class A
+{
+public:
+    int i;
+    A()
+    {
+        cout << "A class default constructor is calling" << endl;
+    }
+    ~A()
+    {
+        cout << "A class destructor is calling" << endl;
+    }
+};
+class B : public A
+{
+public:
+    int j;
+    B()
+    {
+        cout << "B class default constructor is calling" << endl;
+    }
+    int seti(int p)
+    {
+        i = p;
+        return i;
+    }
+    ~B()
+    {
+        cout << "B class default destructor is calling" << endl;
+    }
+};
+
+int main()
+{
+    B b;
+
+    cout << "Result: " << b.seti(100) << endl;
+
+    return 0;
+}
+```
+
+```
+A class default constructor is calling
+B class default constructor is calling
+Result: 100
+B class default destructor is calling
+A class destructor is calling
+```
+
+---
+
+## Example 2
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class A
+{
+public:
+    A()
+    {
+        cout << "A is creating" << endl;
+    }
+    ~A()
+    {
+        cout << "A is destroying" << endl;
+    }
+};
+class B : public A
+{
+public:
+    B()
+    {
+        cout << "B is creating" << endl;
+    }
+    ~B()
+    {
+        cout << "B is destroying" << endl;
+    }
+};
+
+class C : public A
+{
+public:
+    C()
+    {
+        cout << "C is creating" << endl;
+    }
+    ~C()
+    {
+        cout << "C is destroying" << endl;
+    }
+};
+
+class D : public B
+{
+public:
+    D()
+    {
+        cout << "D is creating" << endl;
+    }
+    ~D()
+    {
+        cout << "D is destroying" << endl;
+    }
+};
+class E : public B
+{
+public:
+    E()
+    {
+        cout << "E is creating" << endl;
+    }
+    ~E()
+    {
+        cout << "E is destroying" << endl;
+    }
+};
+
+class F : public C
+{
+public:
+    F()
+    {
+        cout << "F is creating" << endl;
+    }
+    ~F()
+    {
+        cout << "F is destroying" << endl;
+    }
+};
+class G : public C
+{
+public:
+    G()
+    {
+        cout << "G is creating" << endl;
+    }
+    ~G()
+    {
+        cout << "G is destroying" << endl;
+    }
+};
+
+int main()
+{
+    D d;
+    return 0;
+}
+```
+
+### Output
+
+```
+A is creating
+B is creating
+D is creating
+D is destroying
+B is destroying
+A is destroying
+```
+
+---
+
+```cpp
+int main()
+{
+    G g;
+    return 0;
+}
+
+```
+
+### Output
+
+```
+A is creating
+C is creating
+G is creating
+G is destroying
+C is destroying
+A is destroying
+```
+
+---
+
+```cpp
+int main()
+{
+    D d;
+    G g;
+    return 0;
+}
+```
+
+### Output
+
+```
+A is creating
+B is creating
+D is creating
+A is creating
+C is creating
+G is creating
+G is destroying
+C is destroying
+A is destroying
+D is destroying
+B is destroying
+A is destroying
+```
+
+---
+
+## Example 3
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class A
+{
+public:
+    A()
+    {
+        cout << "A is creating" << endl;
+    }
+    ~A()
+    {
+        cout << "A is destroying" << endl;
+    }
+};
+class B : public A
+{
+public:
+    B()
+    {
+        cout << "B is creating" << endl;
+    }
+    ~B()
+    {
+        cout << "B is destroying" << endl;
+    }
+};
+
+class C : public A
+{
+public:
+    C()
+    {
+        cout << "C is creating" << endl;
+    }
+    ~C()
+    {
+        cout << "C is destroying" << endl;
+    }
+};
+
+class D : public B, C
+{
+public:
+    D()
+    {
+        cout << "D is creating" << endl;
+    }
+    ~D()
+    {
+        cout << "D is destroying" << endl;
+    }
+};
+int main()
+{
+    D d;
+    return 0;
+}
+```
+
+### Output
+
+```
+A is creating
+B is creating
+A is creating
+C is creating
+D is creating
+D is destroying
+C is destroying
+A is destroying
+B is destroying
+A is destroying
+```
+
+---
+
+---

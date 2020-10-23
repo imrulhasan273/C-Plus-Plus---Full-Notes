@@ -6,9 +6,9 @@ struct Node
     int data;
     struct Node *next;
 };
-
 struct Node *head = NULL;
 
+/*** -------============INSERT OPERATION STARTS===========------------- ***/
 //Insert at start...
 void insertStart(int newData)
 {
@@ -63,6 +63,21 @@ void insertIndex(int newData, int pos)
     }
 }
 
+/*** -------============INSERT OPERATION ENDS===========------------- ***/
+
+/*** -------============DELETE OPERATION STARTS===========------------- ***/
+void deleteFirstNode()
+{
+    struct Node *toDelete;
+    if (head != NULL)
+    {
+        toDelete = head;
+        head = head->next;
+        free(toDelete);
+    }
+}
+/*** -------============DELETE OPERATION ENDS===========------------- ***/
+
 void display()
 {
     struct Node *ptr;
@@ -86,7 +101,16 @@ int main()
     insertIndex(44, 2);
 
     cout << "The linked list is: ";
+    display();
 
+    cout << endl
+         << "The linked list is: ";
+    deleteFirstNode();
+    display();
+
+    cout << endl
+         << "The linked list is: ";
+    deleteFirstNode();
     display();
 
     return 0;

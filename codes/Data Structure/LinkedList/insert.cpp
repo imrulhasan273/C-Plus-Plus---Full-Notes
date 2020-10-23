@@ -1,22 +1,3 @@
-# **Data Structure**
-
----
-
----
-
-# **Linked List**
-
----
-
-# Singly Linked List
-
----
-
-## **Insertion Operation**
-
----
-
-```cpp
 // Insertion Operation
 #include <iostream>
 using namespace std;
@@ -99,10 +80,8 @@ int main()
     insertStart(7);
     insertStart(2);
     insertStart(9);
-
     insertEnd(22);
     insertEnd(91);
-
     insertIndex(30, 1);
     insertIndex(44, 2);
 
@@ -112,52 +91,3 @@ int main()
 
     return 0;
 }
-```
-
----
-
-## **Deletion Operation**
-
-# **Stack**
-
----
-
----
-
-# **Queue**
-
----
-
----
-
-# **Graph**
-
----
-
----
-
-# **Tree**
-
----
-
-# **Binary Search Tree**
-
----
-
-# **Heap | Priority Queue**
-
----
-
-# **Segment Tree**
-
----
-
-# **Binary Indexed Tree**
-
----
-
----
-
-# **Hashing**
-
----
